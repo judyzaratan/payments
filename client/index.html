@@ -9,28 +9,49 @@
       <a href="#" id="viewtransactions">View Transactions History</a>
     </div>
     <div id="send">
-      <form name="userForm" onsubmit="return (formValidation())">
+      <h1>Send Money</h1>
+      <form id="sender" name="userForm" onsubmit="return (formValidation())">
         <div>
           <label for="email">To:</label>
           <input type="email" id="sendTo" name="recipient"/>
           <span id="errorEmpty" class="empty">Please enter an email address!</span>
           <span id="errorFormat"class="empty">Please correct format</span>
-
         </div>
         <div>
           <label for="amount">Amount</label>
           <input type="number" id="money" name="money" />
+          <span id="money_format"></span>
+          <span id="errorAmountEmpty"class="empty">Please enter a value</span>
+          <span id="errorAmountMoney"class="empty">Please correct format</span>
         </div>
         <div>
-          <input type="radio" name="payment_type" value="family" checked="checked" /> I'm sending money to family or friends
-          <br>
-          <input type="radio" name="payment_type" value="services" /> I'm paying for goods or services
+          <select id="currency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+          </select>
         </div>
-        <button>Clear</button><button>Next</button>
+        <div>
+          <input type="radio" name="payment_type" value="family" checked="checked" /> 
+          I'm sending money to family or friends
+          <br>
+          <input type="radio" name="payment_type" value="services" /> 
+          I'm paying for goods or services
+        </div>
+        <input type="reset" value="clear"><button>Next</button>
       </form>
     </div>
+    <div id="success">
+      <h1>Sent Money Success</h1>
+      <p>You have sent <span></span> to <span></span>!</p>
+      <a id="next">Send Money</a>
+      <a href="">Transaction History</a>
+    </div>
     <div id="transactions">
-      <button id="next">Next</button>
+      <h1>Transactions History</h1>
+      <a id="fetch">Fetch</a>
+
+      <a id="next">Back</a>
     </div>
     <script type="text/javascript" src="/client/js/functions.js"></script>
   </body>
