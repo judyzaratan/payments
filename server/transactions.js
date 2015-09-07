@@ -1,4 +1,5 @@
-[
+var exports = module.exports;
+var transactions = [
   {
     "_id": "55ebe26646729dd8ba217d54",
     "index": 0,
@@ -3875,3 +3876,7 @@
   }
 ];
 
+function getTransactions(id){
+    return transactions.slice(id, id+50);
+};
+exports.getTransactions = getTransactions;

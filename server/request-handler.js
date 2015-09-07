@@ -1,21 +1,28 @@
 var fs = require("fs");
 var path = require("path");
+var querystring = require("querystring");
+var url = require("url");
+var db = require("./transactions.js");
 var exports = module.exports;
-
 exports.requestHandler = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
-
   // The outgoing status.
   var statusCode = 200;
-  var headers = defaultCorsHeaders;
+    var pathName = url.parse(request.url, true).pathname; 
+    var query = url.parse(request.url, true).query;
+    console.log(query);
 
-  var filePath = '.' + request.url;
+  var filePath = '.' + pathName;
   if (filePath == './'){
     filePath = './client/index.html';
   }
   if (filePath == './transactions'){
-    filePath = './server/transactions.json';
-  }
+    var data = JSON.stringify(db.getTransactions(parseInt(query.id)));
+    response.writeHead(200, {'Content-Type': "application/json"});
+    response.write(data, 'utf-8');
+    response.end();
+  } else{
+
   var extname = path.extname(filePath);
   var contentType = 'text/html';
   switch (extname) {
@@ -29,7 +36,6 @@ exports.requestHandler = function(request, response) {
       contentType = 'application/json';
       break;
   }
-  
   fs.exists(filePath, function(exists) {
     console.log(filePath, 'exists', exists);
     if (exists) {
@@ -50,4 +56,5 @@ exports.requestHandler = function(request, response) {
       response.end();
     }
   });
+  }
 };

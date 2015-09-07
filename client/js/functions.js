@@ -147,16 +147,60 @@ fetching.addEventListener("click", function() {
     fetchTransactions();
 });
 
+window.onscroll = function(){
+    console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
+    if(window.scrollY > document.body.clientHeight - window.innerHeight){
+        fetchTransactions();
+    } else {
+        console.log('not loaded');
+        console.log(lastItem);
+    }
+};
+function disableScroll() {
+  if (window.addEventListener) // older FF
+      window.addEventListener('DOMMouseScroll', event.preventDefault, false);
+  window.onwheel = event.preventDefault; // modern standard
+  window.onmousewheel = document.onmousewheel = event.preventDefault; // older browsers, IE
+  window.ontouchmove  = event.preventDefault; // mobile
+  document.onkeydown  = event.preventDefaultForScrollKeys;
+}
 
-
+function enableScroll() {
+    if (window.removeEventListener)
+        window.removeEventListener('DOMMouseScroll', event.preventDefault, false);
+    window.onmousewheel = document.onmousewheel = null; 
+    window.onwheel = null; 
+    window.ontouchmove = null;  
+    document.onkeydown = null;  
+}
+var lastItem = 0;
 function fetchTransactions() {
+    disableScroll();
+    if(lastItem > 250){
+        var node = document.createElement("DIV");
+        node.innerHTML = "NO MORE DATA";
+        document.getElementById("list").appendChild(node);
+    } else{
+        
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "/transactions", true);
+    xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
     xmlhttp.send();
     var xmlDoc = xmlhttp.responseText;
     xmlhttp.onreadystatechange = function() {
+        console.log(xmlhttp);
         if (xmlhttp.readyState == 4) {
-            console.log(xmlhttp.responseText);
+            var data = JSON.parse(xmlhttp.responseText);
+        var html = "";
+        console.log('DATA', data);
+        data.forEach(function(item){
+            html += "<p>" + item.name + "</p>";
+            lastItem = item.index + 1;
+        })
+        document.getElementById("list").innerHTML = html;
+
         }
+        enableScroll();
+
     };
+    }
 };
