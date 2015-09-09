@@ -3877,6 +3877,6 @@ var transactions = [
 ];
 
 function getTransactions(id){
-    return transactions.slice(id, id+50);
+    return transactions.slice(id, id+25);
 };
 exports.getTransactions = getTransactions;

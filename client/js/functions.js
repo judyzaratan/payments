@@ -190,9 +190,9 @@
     fetching.addEventListener("click", function() {
         fetchTransactions();
     });
-    window.onscroll = function(){
-        console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
-        if(window.scrollY > document.body.clientHeight - window.innerHeight){
+    document.getElementById("list").onscroll = function(){
+        console.log(document.getElementById("list").scrollTop , document.body.clientHeight, window.innerHeight, window.screenY);
+        if(document.getElementById("list").scrollTop > 25){
             fetchTransactions();
         } else {
             console.log('not loaded');
@@ -220,7 +220,7 @@
     var lastItem = 0;
 
     function fetchTransactions() {
-        
+
         disableScroll();
         if (lastItem > 250) {
             var node = document.createElement("DIV");
@@ -238,10 +238,13 @@
                     var html = "";
 
                     data.forEach(function(item) {
-                        html += "<p>" + item.name + "</p>";
+                        html += "<tr><td>" + item.transDate + "</td>" +
+                        "<td>" + item.name + "</td>" +
+                        "<td>" + item.balance + "</td" + "</tr>";
                         lastItem = item.index + 1;
                     });
-                    document.getElementById("list").innerHTML = html;
+                    console.log(html);
+                    document.getElementById("data").innerHTML = html;
 
                 }
                 enableScroll();

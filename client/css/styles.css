@@ -81,11 +81,24 @@ input[type="email"] {
   
 #transactions{
   margin: 0 auto 0 auto;
-  text-align: left;
+  text-align: center;
+  background-color: #F8FCFC;
+  width: 500px;
+  height: 500px;
+
+}
+#list{
+
+  margin: 0 auto 0 auto;
+  text-align: center;
   background-color: #F8FCFC;
   width: 500px;
   height: 500px;
   overflow: scroll;
+}
+
+table {
+  margin: 0 auto;
 }
 #send > form >  div {
   margin: 50px;
