@@ -165,13 +165,13 @@
     }
     //Amount validation
     function validateAmount() {
-        if (money.value === "") {
-            showDisplay("errorAmountEmpty");
+        var MONEY_REGEX = /^[0-9](?:\d*)?(?:\.\d{0,2})?$/;
+        if (!MONEY_REGEX.exec(money.value)) {
+            showDisplay("errorAmountMoney");
             return false;
         }
-        var MONEY_REGEX = /^[0-9](?:\d*)?(?:\.\d{0,2})?$/;
-        if (!MONEY_REGEX.test(money.value)) {
-            showDisplay("errorAmountMoney");
+        if (!money.value) {
+            showDisplay("errorAmountEmpty");
             return false;
         }
         return true;
