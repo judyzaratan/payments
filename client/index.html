@@ -6,58 +6,57 @@
     <!--     <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
     <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    -->    <link rel="stylesheet" type="text/css" href="./client/css/styles.css">
+    -->    
+    <link rel="stylesheet" type="text/css" href="./client/css/styles.css">
   </head>
+
   <body>
     <div id="view">
-
       <!-- Landing page -->
       <div id="home">
         <h1>What Are We Doing?</h1>
         <div class="buttons">
-          <a href="#"  href="#" class="" id="viewsend">
+          <a href="#"  class="" id="viewsend">
             Send Money
           </a>
           <br>
-          <a href="#"  href="#" class="" id="viewtransactions">
+          <a href="#"  class="" id="viewtransactions">
             View Transactions History
           </a>
         </div>
       </div>
       
-
       <!-- Send Mone page -->
       <div id="send">
+        <div id="preloader"></div>
         <h1>Send Money</h1>
-        <form id="sender" name="userForm" onsubmit="return (formValidation())">
+        <form id="sender" name="userForm">
           <div>
             <label for="email">To:</label>
-            <input type="email" id="sendTo" name="recipient"/>
+            <input type="email" id="sendTo" name="recipient" autofocus/>
             <span id="errorEmpty" class="error">Please enter an email address!</span>
             <span id="errorFormat"class="error">Please correct format</span>
           </div>
-          <div>
+          <div id="moneyEx">
             <label for="amount">Amount</label>
             <input type="number" id="money" name="money" />
-            <div class="selections">
               <select id="currency">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
                 <option value="JPY">JPY</option>
               </select>
               <span id="money_format"></span>
-              <span id="errorAmountEmpty"class="error">Please enter a value</span>
-              <span id="errorAmountMoney"class="error">Please correct format</span>
-            </div>
+              <span id="errorAmountEmpty"class="error errorMoney">Please enter a value</span>
+              <span id="errorAmountMoney"class="error errorMoney">Please correct format</span>
           </div>
-          <div>
+          <div id="service">
             <input type="radio" name="payment_type" value="family" checked="checked" />
             I'm sending money to family or friends
             <br>
             <input type="radio" name="payment_type" value="services" />
             I'm paying for goods or services
           </div>
-          <input type="reset" value="clear"><button>Next</button>
+          <a href="#" id="clear">Clear</a><a href="#" id="next">Next</a>
         </form>
       </div>
 
@@ -65,12 +64,10 @@
       <!-- Success page -->
       <div id="success">
         <h1>Sent Money Success</h1>
-        <p>You have sent <span></span> to <span></span>!</p>
+        <p>You have sent <span id="amountSent"></span> to <span id="receiver"></span>!</p>
         <a id="next">Send Money</a>
         <a href="">Transaction History</a>
       </div>
-
-
       <!-- Transactions page -->
       <div id="transactions">
         <h1>Transactions History</h1>
@@ -78,7 +75,6 @@
         <a id="fetch">Fetch</a>
         <a id="next">Back</a>
       </div>
-
     </div>
     <script type="text/javascript" src="/client/js/functions.js"></script>
   </body>
