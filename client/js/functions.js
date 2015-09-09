@@ -112,6 +112,7 @@
         hideDisplay(success);
         hideDisplay(preloader);
         showDisplay("transactions");
+        fetchTransactions();
         });
     });
 
@@ -130,6 +131,8 @@
         }
 
     });
+
+
     document.getElementById("clear").addEventListener("click", function(){
         document.getElementById("sender").reset();
         var errors = document.getElementsByClassName("error");
@@ -187,16 +190,16 @@
     fetching.addEventListener("click", function() {
         fetchTransactions();
     });
+    window.onscroll = function(){
+        console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
+        if(window.scrollY > document.body.clientHeight - window.innerHeight){
+            fetchTransactions();
+        } else {
+            console.log('not loaded');
+            console.log(lastItem);
+        }
+    };
 
-    // window.onscroll = function(){
-    //     console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
-    //     if(window.scrollY > document.body.clientHeight - window.innerHeight){
-    //         fetchTransactions();
-    //     } else {
-    //         console.log('not loaded');
-    //         console.log(lastItem);
-    //     }
-    // };
     function disableScroll() {
         if (window.addEventListener) // older FF
             window.addEventListener('DOMMouseScroll', event.preventDefault, false);
@@ -217,6 +220,7 @@
     var lastItem = 0;
 
     function fetchTransactions() {
+        
         disableScroll();
         if (lastItem > 250) {
             var node = document.createElement("DIV");

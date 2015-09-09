@@ -16,10 +16,11 @@ exports.requestHandler = function(request, response) {
 
   //Format according to 
   if (pathName === "/"){
-    pathName = "client/index.html"
+    pathName = "/client/index.html"
   } 
-
-  var filePath = "./" + pathName;
+  var filePath = path.normalize(pathName);
+  filePath = "." + filePath;
+  console.log('FilePath', filePath);
 
   if (filePath == './transactions'){
     var data = JSON.stringify(db.getTransactions(parseInt(query.id)));

@@ -78,15 +78,14 @@ input[type="email"] {
   height: 500px;
   z-index: 1;
 }
-
-
-
+  
 #transactions{
   margin: 0 auto 0 auto;
   text-align: left;
   background-color: #F8FCFC;
   width: 500px;
   height: 500px;
+  overflow: scroll;
 }
 #send > form >  div {
   margin: 50px;
