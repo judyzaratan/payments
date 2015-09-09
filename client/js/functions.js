@@ -6,13 +6,17 @@ var getElement = function(id) {
 
 //package into a module the money and info.  Private variables
 var home = getElement("home");
-var viewsend = getElement("viewsend");
-var viewtransactions = getElement("viewtransactions");
+
+var viewsend = document.getElementsByClassName("sendPage");
+var viewtrans = document.getElementsByClassName("transPage");
+var preloader = document.getElementById("preloader");
+
 var send = getElement("send");
 var transactions = getElement("transactions");
 var recipient = getElement("sendTo");
 var money = getElement("money");
 var next = getElement("next");
+var success = getElement("success")
 var hideDisplay = function(whichDisplay) {
     whichDisplay.style.display = "none";
 
@@ -87,15 +91,24 @@ function displayMoney() {
 
 
 
-viewsend.addEventListener("click", function() {
+Array.prototype.forEach.call(viewsend, function(page){
+    page.addEventListener("click", function() {
     hideDisplay(home);
+    hideDisplay(success);
+    hideDisplay(preloader);
+    document.getElementById("clear").click();
     showDisplay("send");
+    });
+});
+Array.prototype.forEach.call(viewtrans, function(page){
+    page.addEventListener("click", function() {
+    hideDisplay(home);
+    hideDisplay(success);
+    hideDisplay(preloader);
+    showDisplay("transactions");
+    });
 });
 
-viewtransactions.addEventListener("click", function() {
-    hideDisplay(home);
-    showDisplay("transactions");
-});
 
 next.addEventListener("click", function(){
     if(formValidation()){
