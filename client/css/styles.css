@@ -80,21 +80,25 @@ input[type="email"] {
 }
   
 #transactions{
+
   margin: 0 auto 0 auto;
   text-align: center;
   background-color: #F8FCFC;
   width: 500px;
   height: 500px;
+  position: relative;
+  z-index: 1;
 
 }
 #list{
-
+  position: relative;
   margin: 0 auto 0 auto;
   text-align: center;
   background-color: #F8FCFC;
   width: 500px;
   height: 500px;
   overflow: scroll;
+  z-index: 1;
 }
 
 table {

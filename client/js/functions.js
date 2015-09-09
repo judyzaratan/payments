@@ -1,11 +1,7 @@
-
-(function(){
-
-
+(function() {
     var getElement = function(id) {
         return document.getElementById(id);
     };
-
 
     //package into a module the money and info.  Private variables
     var home = getElement("home");
@@ -21,18 +17,14 @@
     var next = getElement("next");
     var success = getElement("success");
 
-
-
     var hideDisplay = function(whichDisplay) {
         whichDisplay.style.display = "none";
-
     };
 
 
     var showDisplay = function(input) {
         document.getElementById(input).style.display = "inherit";
     };
-
 
     recipient.addEventListener("focusin", function() {
         var errors = document.getElementsByClassName("error");
@@ -51,7 +43,7 @@
         var error = Array.prototype.forEach.call(errors, function(errorEl) {
             hideDisplay(errorEl);
         });
-            document.getElementById("money_format").style.display = "";
+        document.getElementById("money_format").style.display = "";
     });
 
     document.getElementById("moneyEx").addEventListener("focusout", function() {
@@ -97,49 +89,49 @@
 
 
 
-    Array.prototype.forEach.call(viewsend, function(page){
+    Array.prototype.forEach.call(viewsend, function(page) {
         page.addEventListener("click", function() {
-        hideDisplay(home);
-        hideDisplay(success);
-        hideDisplay(preloader);
-        document.getElementById("clear").click();
-        showDisplay("send");
+            hideDisplay(home);
+            hideDisplay(success);
+            hideDisplay(preloader);
+            document.getElementById("clear").click();
+            showDisplay("send");
         });
     });
-    Array.prototype.forEach.call(viewtrans, function(page){
+    Array.prototype.forEach.call(viewtrans, function(page) {
         page.addEventListener("click", function() {
-        hideDisplay(home);
-        hideDisplay(success);
-        hideDisplay(preloader);
-        showDisplay("transactions");
-        fetchTransactions();
+            hideDisplay(home);
+            hideDisplay(success);
+            hideDisplay(preloader);
+            showDisplay("transactions");
+            fetchTransactions();
         });
     });
 
 
-    next.addEventListener("click", function(){
-        if(formValidation()){
+    next.addEventListener("click", function() {
+        if (formValidation()) {
             document.getElementById("preloader").style.display = "inherit";
-            document.getElementById("amountSent").innerHTML =  document.getElementById("money_format").innerHTML;
+            document.getElementById("amountSent").innerHTML = document.getElementById("money_format").innerHTML;
             document.getElementById("receiver").innerHTML = document.getElementById("sendTo").value;
 
-        setTimeout(function(){
-            hideDisplay(send);
-            showDisplay("success");
-        }, 2000);
-            
+            setTimeout(function() {
+                hideDisplay(send);
+                showDisplay("success");
+            }, 2000);
+
         }
 
     });
 
 
-    document.getElementById("clear").addEventListener("click", function(){
+    document.getElementById("clear").addEventListener("click", function() {
         document.getElementById("sender").reset();
         var errors = document.getElementsByClassName("error");
         Array.prototype.forEach.call(errors, function(errorEl) {
             hideDisplay(errorEl);
         });
-        var money_display=document.getElementById("money_format");
+        var money_display = document.getElementById("money_format");
         money_display.innerHTML = "";
         hideDisplay(document.getElementById("money_format"));
     });
@@ -190,44 +182,29 @@
     fetching.addEventListener("click", function() {
         fetchTransactions();
     });
-    document.getElementById("list").onscroll = function(){
-        console.log(document.getElementById("list").scrollTop , document.body.clientHeight, window.innerHeight, window.screenY);
-        if(document.getElementById("list").scrollTop > 25){
+    var lastScrollTop = 25;
+    document.getElementById("list").onscroll = function() {
+        console.log(document.getElementById("list").scrollTop, document.body.clientHeight, window.innerHeight, window.screenY);
+        if (document.getElementById("list").scrollTop > lastScrollTop + 50) {
+            lastScrollTop = document.getElementById("list").scrollTop;
+            document.getElementById("preloader").style.display = "inherit";
             fetchTransactions();
+
         } else {
             console.log('not loaded');
-            console.log(lastItem);
+            console.log('lastScrollTop', lastScrollTop);
         }
     };
 
-    function disableScroll() {
-        if (window.addEventListener) // older FF
-            window.addEventListener('DOMMouseScroll', event.preventDefault, false);
-        window.onwheel = event.preventDefault; // modern standard
-        window.onmousewheel = document.onmousewheel = event.preventDefault; // older browsers, IE
-        window.ontouchmove = event.preventDefault; // mobile
-        document.onkeydown = event.preventDefaultForScrollKeys;
-    }
-
-    function enableScroll() {
-        if (window.removeEventListener)
-            window.removeEventListener('DOMMouseScroll', event.preventDefault, false);
-        window.onmousewheel = document.onmousewheel = null;
-        window.onwheel = null;
-        window.ontouchmove = null;
-        document.onkeydown = null;
-    }
-    var lastItem = 0;
 
     function fetchTransactions() {
+        // if () {
+        //     var node = document.createElement("DIV");
+        //     node.innerHTML = "NO MORE DATA";
+        //     document.getElementById("list").appendChild(node);
 
-        disableScroll();
-        if (lastItem > 250) {
-            var node = document.createElement("DIV");
-            node.innerHTML = "NO MORE DATA";
-            document.getElementById("list").appendChild(node);
-        } else {
-
+        // } else {
+            var lastItem =  document.getElementById("list").getElementsByTagName("tr").length;
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
             xmlhttp.send();
@@ -239,17 +216,14 @@
 
                     data.forEach(function(item) {
                         html += "<tr><td>" + item.transDate + "</td>" +
-                        "<td>" + item.name + "</td>" +
-                        "<td>" + item.balance + "</td" + "</tr>";
-                        lastItem = item.index + 1;
+                            "<td>" + item.name + "</td>" +
+                            "<td>" + item.balance + "</td" + "</tr>";
                     });
-                    console.log(html);
-                    document.getElementById("data").innerHTML = html;
+                    var previous = document.getElementById("data").innerHTML;
+                    document.getElementById("data").innerHTML = previous + html;
 
                 }
-                enableScroll();
-
             };
         }
-    }
+    // }
 })();
