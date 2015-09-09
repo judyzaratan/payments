@@ -13,6 +13,6 @@ bower install
 
 Running for development (using nodemon):
 ```
-nodemon app.js
+nodemon server.js
 ```
 
