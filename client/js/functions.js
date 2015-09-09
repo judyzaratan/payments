@@ -5,7 +5,7 @@ var getElement = function(id) {
 
 
 //package into a module the money and info.  Private variables
-
+var home = getElement("home");
 var viewsend = getElement("viewsend");
 var viewtransactions = getElement("viewtransactions");
 var send = getElement("send");
@@ -17,24 +17,21 @@ var hideDisplay = function(whichDisplay) {
 };
 
 
-// //Initialize 
-// hideDisplay(send);
-// hideDisplay(transactions);
-// hideDisplay(getElement("errorFormat"));
-// hideDisplay(getElement("errorEmpty"));
-
 var showDisplay = function(input) {
-    document.getElementById(input).style.display = "";
+    document.getElementById(input).style.display = "inherit";
 };
 
-recipient.addEventListener("focusin", function() {
-    console.log(this);
-    var errors = document.getElementsByClassName("empty");
-    var error = Array.prototype.forEach.call(errors, function(errorEl) {
-        hideDisplay(errorEl);
-    });
-});
+// recipient.addEventListener("focusin", function() {
+//     console.log(this);
+//     var errors = document.getElementsByClassName("empty");
+//     var error = Array.prototype.forEach.call(errors, function(errorEl) {
+//         hideDisplay(errorEl);
+//     });
+// });
 
+// document.getElementById("viewsend").addEventListener("click", function(){
+//     window.location = "/send.html";
+// })
 
 //When user focus out of amount input box
 //Display format
@@ -84,12 +81,12 @@ function displayMoney() {
 
 
 viewsend.addEventListener("click", function() {
-    hideDisplay(this.parentNode);
+    hideDisplay(home);
     showDisplay("send");
 });
 
 viewtransactions.addEventListener("click", function() {
-    hideDisplay(this.parentNode);
+    hideDisplay(home);
     showDisplay("transactions");
 });
 
@@ -147,15 +144,15 @@ fetching.addEventListener("click", function() {
     fetchTransactions();
 });
 
-window.onscroll = function(){
-    console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
-    if(window.scrollY > document.body.clientHeight - window.innerHeight){
-        fetchTransactions();
-    } else {
-        console.log('not loaded');
-        console.log(lastItem);
-    }
-};
+// window.onscroll = function(){
+//     console.log(window.scrollY, document.body.clientHeight, window.innerHeight, window.screenY);
+//     if(window.scrollY > document.body.clientHeight - window.innerHeight){
+//         fetchTransactions();
+//     } else {
+//         console.log('not loaded');
+//         console.log(lastItem);
+//     }
+// };
 function disableScroll() {
   if (window.addEventListener) // older FF
       window.addEventListener('DOMMouseScroll', event.preventDefault, false);
@@ -181,7 +178,7 @@ function fetchTransactions() {
         node.innerHTML = "NO MORE DATA";
         document.getElementById("list").appendChild(node);
     } else{
-        
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
     xmlhttp.send();
@@ -204,3 +201,9 @@ function fetchTransactions() {
     };
     }
 };
+
+// //Initialize 
+// hideDisplay(send);
+// hideDisplay(transactions);
+// hideDisplay(getElement("errorFormat"));
+// hideDisplay(getElement("errorEmpty"));
