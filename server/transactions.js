@@ -1,4 +1,27 @@
 var exports = module.exports;
+
+
+/***************************
+//Mock data was obtained thru http://www.json-generator.com/ with the following specs
+[
+  '{{repeat(250, 300)}}',
+  {
+    _id: '{{objectId()}}',
+    index: '{{index()}}',
+    guid: '{{guid()}}',
+    balance: '{{floating(1, 10000, 2, "$0,0.00")}}',
+    name: '{{firstName()}} {{surname()}}',
+    gender: '{{gender()}}',
+    email: '{{email()}}',
+    phone: '+1 {{phone()}}',
+    address: '{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}',
+    message: '{{lorem(1, "paragraphs")}}',
+    transDate: '{{date(new Date(2014, 0, 1), new Date(), "MM/dd/YYYY")}}'
+  }
+]
+****************************/
+
+
 var transactions = [
   {
     "_id": "55ebe26646729dd8ba217d54",
@@ -3876,7 +3899,10 @@ var transactions = [
   }
 ];
 
+
+//Mock query from pseudo-database returns 50 entries
 function getTransactions(id){
     return transactions.slice(id, id+50);
 };
+
 exports.getTransactions = getTransactions;

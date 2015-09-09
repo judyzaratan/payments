@@ -198,32 +198,25 @@
 
 
     function fetchTransactions() {
-        // if () {
-        //     var node = document.createElement("DIV");
-        //     node.innerHTML = "NO MORE DATA";
-        //     document.getElementById("list").appendChild(node);
+        var lastItem = document.getElementById("list").getElementsByTagName("tr").length;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
+        xmlhttp.send();
+        var xmlDoc = xmlhttp.responseText;
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                var data = JSON.parse(xmlhttp.responseText);
+                var html = "";
 
-        // } else {
-            var lastItem =  document.getElementById("list").getElementsByTagName("tr").length;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
-            xmlhttp.send();
-            var xmlDoc = xmlhttp.responseText;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4) {
-                    var data = JSON.parse(xmlhttp.responseText);
-                    var html = "";
+                data.forEach(function(item) {
+                    html += "<tr><td>" + item.transDate + "</td>" +
+                        "<td>" + item.name + "</td>" +
+                        "<td>" + item.balance + "</td" + "</tr>";
+                });
+                var previous = document.getElementById("data").innerHTML;
+                document.getElementById("data").innerHTML = previous + html;
 
-                    data.forEach(function(item) {
-                        html += "<tr><td>" + item.transDate + "</td>" +
-                            "<td>" + item.name + "</td>" +
-                            "<td>" + item.balance + "</td" + "</tr>";
-                    });
-                    var previous = document.getElementById("data").innerHTML;
-                    document.getElementById("data").innerHTML = previous + html;
-
-                }
-            };
-        }
-    // }
+            }
+        };
+    }
 })();
