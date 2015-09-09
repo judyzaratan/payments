@@ -1,4 +1,6 @@
 (function() {
+
+    //Obtains sections of html in DOM
     var getElement = function(id) {
         return document.getElementById(id);
     };
@@ -6,10 +8,12 @@
     //package into a module the money and info.  Private variables
     var home = getElement("home");
 
+
     var viewsend = document.getElementsByClassName("sendPage");
     var viewtrans = document.getElementsByClassName("transPage");
-    var preloader = document.getElementById("preloader");
+    var viewhome = document.getElementById("goHome");
 
+    var preloader = getElement("preloader");
     var send = getElement("send");
     var transactions = getElement("transactions");
     var recipient = getElement("sendTo");
@@ -17,15 +21,21 @@
     var next = getElement("next");
     var success = getElement("success");
 
+
+    //Hides unneeded html to user -- error messages/pages
     var hideDisplay = function(whichDisplay) {
         whichDisplay.style.display = "none";
     };
 
-
+    //Shows hidden html to user
     var showDisplay = function(input) {
         document.getElementById(input).style.display = "inherit";
     };
 
+    viewhome.addEventListener("click", function(){
+        hideDisplay(transactions);
+        showDisplay("home");
+    })
     recipient.addEventListener("focusin", function() {
         var errors = document.getElementsByClassName("error");
         var error = Array.prototype.forEach.call(errors, function(errorEl) {
@@ -82,11 +92,6 @@
         var amountSent = sign[selected] + options[selected]();
         document.getElementById("money_format").innerHTML = amountSent;
     }
-
-    //Add event listener if user changes currency
-    //Change money currency display
-    //Update value
-
 
 
     Array.prototype.forEach.call(viewsend, function(page) {
@@ -178,18 +183,18 @@
         return true;
     }
 
-    var fetching = getElement("fetch");
-    fetching.addEventListener("click", function() {
-        fetchTransactions();
-    });
-    var lastScrollTop = 25;
+    var lastScrollTop = 50;
     document.getElementById("list").onscroll = function() {
         console.log(document.getElementById("list").scrollTop, document.body.clientHeight, window.innerHeight, window.screenY);
-        if (document.getElementById("list").scrollTop > lastScrollTop + 50) {
+        if (document.getElementById("list").scrollTop > lastScrollTop + 150) {
+            document.getElementById("preloader2").style.display = "inherit";
             lastScrollTop = document.getElementById("list").scrollTop;
-            document.getElementById("preloader").style.display = "inherit";
+            this.style.overflow = "hidden";
             fetchTransactions();
-
+            setTimeout(function(){
+                document.getElementById("list").style.overflow="scroll";
+                document.getElementById("preloader2").style.display = "none";
+            }, 500);
         } else {
             console.log('not loaded');
             console.log('lastScrollTop', lastScrollTop);
@@ -198,25 +203,26 @@
 
 
     function fetchTransactions() {
-        var lastItem = document.getElementById("list").getElementsByTagName("tr").length;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
-        xmlhttp.send();
-        var xmlDoc = xmlhttp.responseText;
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4) {
-                var data = JSON.parse(xmlhttp.responseText);
-                var html = "";
+            var lastItem =  document.getElementById("list").getElementsByTagName("tr").length;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "/transactions?id=" + lastItem, true);
+            xmlhttp.send();
+            var xmlDoc = xmlhttp.responseText;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    var html = "";
 
-                data.forEach(function(item) {
-                    html += "<tr><td>" + item.transDate + "</td>" +
-                        "<td>" + item.name + "</td>" +
-                        "<td>" + item.balance + "</td" + "</tr>";
-                });
-                var previous = document.getElementById("data").innerHTML;
-                document.getElementById("data").innerHTML = previous + html;
+                    data.forEach(function(item) {
+                        html += "<tr><td>" + item.transDate + "</td>" +
+                            "<td>" + item.name + "</td>" +
+                            "<td>" + item.balance + "</td" + "</tr>";
+                    });
+                    var previous = document.getElementById("data").innerHTML;
+                    document.getElementById("data").innerHTML = previous + html;
 
-            }
-        };
-    }
+                }
+            };
+        }
+
 })();

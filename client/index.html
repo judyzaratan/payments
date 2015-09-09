@@ -28,8 +28,8 @@
           <div>
             <label for="email">To:</label>
             <input type="email" id="sendTo" name="recipient" autofocus/>
-            <span id="errorEmpty" class="error">Please enter an email address!</span>
-            <span id="errorFormat"class="error">Please correct format</span>
+            <span id="errorEmpty" class="error errorEmail">Please enter an email address!</span>
+            <span id="errorFormat"class="error errorEmail">Please correct format</span>
           </div>
           <div id="moneyEx">
             <label for="amount">Amount</label>
@@ -62,14 +62,13 @@
       </div>
       <!-- Transactions page -->
       <div id="transactions">
+          <div id="preloader2"></div>
         <h1>Transactions History</h1>
         <div id="list">
-          <div id="preloader"></div>
           <table id="data">
           </table>
         </div>
-        <a id="fetch">Fetch</a>
-        <a id="next">Back</a>
+        <a id="goHome">Back</a>
       </div>
     </div>
     <script type="text/javascript" src="/client/js/functions.js"></script>
