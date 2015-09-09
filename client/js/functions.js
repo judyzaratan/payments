@@ -31,6 +31,9 @@
         document.getElementById(input).style.display = "inherit";
     };
 
+
+
+//EVENT LISTENERS FOR CERTAIN EVENTS
     viewhome.addEventListener("click", function(){
         hideDisplay(transactions);
         showDisplay("home");
@@ -64,6 +67,58 @@
     });
 
 
+
+    Array.prototype.forEach.call(viewsend, function(page) {
+        page.addEventListener("click", function() {
+            hideDisplay(home);
+            hideDisplay(success);
+            hideDisplay(preloader);
+            document.getElementById("clear").click();
+            showDisplay("send");
+        });
+    });
+    Array.prototype.forEach.call(viewtrans, function(page) {
+        page.addEventListener("click", function() {
+            hideDisplay(home);
+            hideDisplay(success);
+            hideDisplay(preloader);
+            showDisplay("transactions");
+            fetchTransactions();
+        });
+    });
+    next.addEventListener("click", function() {
+        if (formValidation()) {
+            document.getElementById("preloader").style.display = "inherit";
+            document.getElementById("amountSent").innerHTML = document.getElementById("money_format").innerHTML;
+            document.getElementById("receiver").innerHTML = document.getElementById("sendTo").value;
+
+            setTimeout(function() {
+                hideDisplay(send);
+                showDisplay("success");
+            }, 2000);
+
+        }
+
+    });
+
+
+    document.getElementById("clear").addEventListener("click", function() {
+        document.getElementById("sender").reset();
+        var errors = document.getElementsByClassName("error");
+        Array.prototype.forEach.call(errors, function(errorEl) {
+            hideDisplay(errorEl);
+        });
+        var money_display = document.getElementById("money_format");
+        money_display.innerHTML = "";
+        hideDisplay(document.getElementById("money_format"));
+    });
+
+//****************
+
+
+
+//FUNCTIONS FOR VALIDATION AND REQUESTS
+    //format money according to currency selected
     function displayMoney() {
         var options = {
             USD: function() {
@@ -95,52 +150,7 @@
     }
 
 
-    Array.prototype.forEach.call(viewsend, function(page) {
-        page.addEventListener("click", function() {
-            hideDisplay(home);
-            hideDisplay(success);
-            hideDisplay(preloader);
-            document.getElementById("clear").click();
-            showDisplay("send");
-        });
-    });
-    Array.prototype.forEach.call(viewtrans, function(page) {
-        page.addEventListener("click", function() {
-            hideDisplay(home);
-            hideDisplay(success);
-            hideDisplay(preloader);
-            showDisplay("transactions");
-            fetchTransactions();
-        });
-    });
 
-
-    next.addEventListener("click", function() {
-        if (formValidation()) {
-            document.getElementById("preloader").style.display = "inherit";
-            document.getElementById("amountSent").innerHTML = document.getElementById("money_format").innerHTML;
-            document.getElementById("receiver").innerHTML = document.getElementById("sendTo").value;
-
-            setTimeout(function() {
-                hideDisplay(send);
-                showDisplay("success");
-            }, 2000);
-
-        }
-
-    });
-
-
-    document.getElementById("clear").addEventListener("click", function() {
-        document.getElementById("sender").reset();
-        var errors = document.getElementsByClassName("error");
-        Array.prototype.forEach.call(errors, function(errorEl) {
-            hideDisplay(errorEl);
-        });
-        var money_display = document.getElementById("money_format");
-        money_display.innerHTML = "";
-        hideDisplay(document.getElementById("money_format"));
-    });
 
     //Form validation
 
@@ -153,7 +163,7 @@
         var check = checkEmail();
         return check && validateAmount();
     }
-
+    //Amount validation
     function validateAmount() {
         if (money.value === "") {
             showDisplay("errorAmountEmpty");
@@ -167,6 +177,7 @@
         return true;
     }
 
+    //Email validation
     function checkEmail() {
         //check if empty
         if (recipient.value === "") {
@@ -184,6 +195,7 @@
         return true;
     }
 
+    //Load transactions based on scroll
     var lastScrollTop = 50;
     document.getElementById("list").onscroll = function() {
         if (document.getElementById("list").scrollTop > lastScrollTop + 150) {
@@ -198,7 +210,7 @@
         }
     };
 
-
+    //http request for transactions
     function fetchTransactions() {
             var lastItem =  document.getElementById("list").getElementsByTagName("tr").length;
             var xmlhttp = new XMLHttpRequest();
