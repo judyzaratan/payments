@@ -1,6 +1,6 @@
 
 @import url(https://fonts.googleapis.com/css?family=Lato);
-#send, #transactions, #success{
+#send, #transactions, #success, .error{
   display: none;
 }
 body, #view{
@@ -46,9 +46,19 @@ a {
 input {
   padding:5px; 
   border:2px solid #ccc; 
-border-radius: 5px;
+  border-radius: 5px;
 }
+
 #send{
+  margin: 0 auto 0 auto;
+  text-align: left;
+  background-color: #F8FCFC;
+  width: 500px;
+  height: 500px;
+}
+
+
+#transactions{
   margin: 0 auto 0 auto;
   text-align: left;
   background-color: #F8FCFC;

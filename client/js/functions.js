@@ -21,24 +21,24 @@ var showDisplay = function(input) {
     document.getElementById(input).style.display = "inherit";
 };
 
-// recipient.addEventListener("focusin", function() {
-//     console.log(this);
-//     var errors = document.getElementsByClassName("empty");
-//     var error = Array.prototype.forEach.call(errors, function(errorEl) {
-//         hideDisplay(errorEl);
-//     });
-// });
 
-// document.getElementById("viewsend").addEventListener("click", function(){
-//     window.location = "/send.html";
-// })
+recipient.addEventListener("focusin", function() {
+    console.log(this);
+    var errors = document.getElementsByClassName("error");
+    var error = Array.prototype.forEach.call(errors, function(errorEl) {
+        hideDisplay(errorEl);
+    });
+});
+
+recipient.addEventListener("focusout", function(){
+    checkEmail();
+})
 
 //When user focus out of amount input box
 //Display format
 money.addEventListener("focusout", function() {
     console.log(this);
     if (this.value !== "" && validateAmount()) {
-
         hideDisplay(this);
         displayMoney();
     }
@@ -58,9 +58,6 @@ function displayMoney() {
             return n.toFixed(2).replace(/\./g, ",").replace(/./g, function(c, i, a) {
                 return i && c !== "," && ((a.length - i) % 3 === 0) ? '.' + c : c;
             });
-
-
-
         },
         JPY: function() {
             var n = Math.round(parseFloat(document.getElementById("money").value));
