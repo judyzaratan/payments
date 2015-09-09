@@ -48,7 +48,7 @@ exports.requestHandler = function(request, response) {
                 contentType = 'application/json';
                 break;
         }
-        console.log(__dirname, filePath);
+
         fs.exists(filePath, function(exists) {
             console.log(__dirname + filePath, 'exists', exists);
             if (exists) {

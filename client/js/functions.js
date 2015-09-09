@@ -5,7 +5,6 @@
         return document.getElementById(id);
     };
 
-    //package into a module the money and info.  Private variables
     var home = getElement("home");
 
 
@@ -35,7 +34,9 @@
     viewhome.addEventListener("click", function(){
         hideDisplay(transactions);
         showDisplay("home");
-    })
+    });
+
+
     recipient.addEventListener("focusin", function() {
         var errors = document.getElementsByClassName("error");
         var error = Array.prototype.forEach.call(errors, function(errorEl) {
@@ -185,7 +186,6 @@
 
     var lastScrollTop = 50;
     document.getElementById("list").onscroll = function() {
-        console.log(document.getElementById("list").scrollTop, document.body.clientHeight, window.innerHeight, window.screenY);
         if (document.getElementById("list").scrollTop > lastScrollTop + 150) {
             document.getElementById("preloader2").style.display = "inherit";
             lastScrollTop = document.getElementById("list").scrollTop;
@@ -195,9 +195,6 @@
                 document.getElementById("list").style.overflow="scroll";
                 document.getElementById("preloader2").style.display = "none";
             }, 500);
-        } else {
-            console.log('not loaded');
-            console.log('lastScrollTop', lastScrollTop);
         }
     };
 
