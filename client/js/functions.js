@@ -14,7 +14,6 @@ var recipient = getElement("sendTo");
 var money = getElement("money");
 var next = getElement("next");
 var hideDisplay = function(whichDisplay) {
-    console.log(whichDisplay);
     whichDisplay.style.display = "none";
 
 };
@@ -68,7 +67,6 @@ function displayMoney() {
         },
         JPY: function() {
             var n = Math.round(parseFloat(document.getElementById("money").value));
-            console.log(n);
             return n;
         }
     };
@@ -79,7 +77,8 @@ function displayMoney() {
     };
     var selected = document.getElementById("currency").value;
     var money = typeof document.getElementById("money").value;
-    document.getElementById("money_format").innerHTML = (sign[selected] + options[selected]());
+    var amountSent = sign[selected] + options[selected]();
+    document.getElementById("money_format").innerHTML = amountSent;
 }
 
 //Add event listener if user changes currency
@@ -99,11 +98,17 @@ viewtransactions.addEventListener("click", function() {
 });
 
 next.addEventListener("click", function(){
-    document.getElementById("preloader").style.display = "inherit";
+    if(formValidation()){
+        document.getElementById("preloader").style.display = "inherit";
+        document.getElementById("amountSent").innerHTML =  document.getElementById("money_format").innerHTML;
+        document.getElementById("receiver").innerHTML = document.getElementById("sendTo").value;
+
     setTimeout(function(){
         hideDisplay(send);
-        showDisplay("transactions");
+        showDisplay("success");
     }, 2000);
+        
+    }
 
 });
 document.getElementById("clear").addEventListener("click", function(){
@@ -115,7 +120,7 @@ document.getElementById("clear").addEventListener("click", function(){
     var money_display=document.getElementById("money_format");
     money_display.innerHTML = "";
     hideDisplay(document.getElementById("money_format"));
-})
+});
 
 //Form validation
 
@@ -126,7 +131,6 @@ function formValidation() {
     var money = getElement("money");
     var payment_cat = getElement("payment_type");
     var check = checkEmail();
-    console.log(check);
     return check && validateAmount();
 }
 
@@ -135,7 +139,6 @@ function validateAmount() {
         showDisplay("errorAmountEmpty");
         return false;
     }
-    console.log(typeof money.value);
     var MONEY_REGEX = /^[0-9](?:\d*)?(?:\.\d{0,2})?$/;
     if (!MONEY_REGEX.test(money.value)) {
         showDisplay("errorAmountMoney");
@@ -147,7 +150,6 @@ function validateAmount() {
 function checkEmail() {
     //check if empty
     if (recipient.value === "") {
-        console.log("errorEmpty");
         showDisplay("errorEmpty");
         return false;
     }
@@ -156,7 +158,6 @@ function checkEmail() {
 
     if (!EMAIL_REGEX.test(recipient.value)) {
         EMAIL_REGEX.test(recipient.value);
-        console.log("errorFormat");
         showDisplay("errorFormat");
         return false;
     }
@@ -209,15 +210,14 @@ function fetchTransactions() {
         xmlhttp.send();
         var xmlDoc = xmlhttp.responseText;
         xmlhttp.onreadystatechange = function() {
-            console.log(xmlhttp);
             if (xmlhttp.readyState == 4) {
                 var data = JSON.parse(xmlhttp.responseText);
                 var html = "";
-                console.log('DATA', data);
+
                 data.forEach(function(item) {
                     html += "<p>" + item.name + "</p>";
                     lastItem = item.index + 1;
-                })
+                });
                 document.getElementById("list").innerHTML = html;
 
             }
@@ -225,4 +225,4 @@ function fetchTransactions() {
 
         };
     }
-};
+}

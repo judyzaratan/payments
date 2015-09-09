@@ -27,7 +27,7 @@ body, #view{
 h1 {
   background-color: #80B2B2;
 }
-#home{
+#home, #success{
   margin: 0 auto 0 auto;
   background-color: #F8FCFC;
   text-align: center;
@@ -43,6 +43,10 @@ margin: 10px;
 }
 span{
   display: block;
+}
+
+#amountSent, #receiver {
+  display: inline;
 }
 .selections{
   display: inline;
